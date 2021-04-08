@@ -2,30 +2,14 @@
 
 This is the project for the third course in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213): Memory Management.
 
-This project is under development
-- Task 0:
-  - Removed double delete of `_chatBot` pointer on graphnode destructor. `_chatBot` pointer is deleted on `ChatLogic` class destructor, the same class where it is initialized.
-- Task 1:
-  - `_chatLogic` is defined as `std::unique_ptr<ChatLogic>`.
-  - `delete _chatLogic` removed from `ChatBotPanelDialog` destructor.
-  - Ajusted `_chatLogic` initialization on `ChatBotPanelDialog` constructor.
-- Task 2:
-  - Implemented copy constructor, copy assignment constructor, move constructor and move assignment constructor on `ChatBot` class.
-  - on all `_image` attribute that is assigned to `nullptr` was changed to `NULL`.
-- Task 3:
-  - Adapted vector `_nodes` to a vector of `std::unique_ptr<GraphNode>`.
-  - Adpated all functions that access `_nodes`. 
-- Task 4:
-  - 
+The main goal is to apply memory management best pratices to optimize the [ChatBot program](https://github.com/udacity/CppND-Memory-Management-Chatbot) from a memory management perspective, by using the concepts of move semantics and smart pointers. There are a total of five specific tasks to be completed, which are detailed below.
 
-
+## The ChatBot
 <img src="images/chatbot_demo.gif"/>
 
 The ChatBot code creates a dialogue where users can ask questions about some aspects of memory management in C++. After the knowledge base of the chatbot has been loaded from a text file, a knowledge graph representation is created in computer memory, where chatbot answers represent the graph nodes and user queries represent the graph edges. After a user query has been sent to the chatbot, the Levenshtein distance is used to identify the most probable answer. The code is fully functional as-is and uses raw pointers to represent the knowledge graph and interconnections between objects throughout the project.
 
 In this project you will analyze and modify the program. Although the program can be executed and works as intended, no advanced concepts as discussed in this course have been used; there are currently no smart pointers, no move semantics and not much thought has been given to ownership or memory allocation.
-
-Your goal is to use the course knowledge to optimize the ChatBot program from a memory management perspective. There are a total of five specific tasks to be completed, which are detailed below.
 
 ## Dependencies for Running Locally
 * cmake >= 3.11
@@ -47,13 +31,15 @@ Your goal is to use the course knowledge to optimize the ChatBot program from a 
 ## Basic Build Instructions
 
 1. Clone this repo.
-2. Make a build directory in the top level directory: `mkdir build && cd build`
-3. Compile: `cmake .. && make`
-4. Run it: `./membot`.
+2. Use the MakeFile to build and compile
+- build: `make build`
+- debug: `make debug`
+- A executable `membot` is created in `build` folder
+3. Move to `build` directory and run it: `./membot`
 
 ## Project Task Details
 
-Currently, the program crashes when you close the window. There is a small bug hidden somewhere, which has something to do with improper memory management. So your first warm-up task will be to find this bug and remove it. This should familiarize you with the code and set you up for the rest of the upcoming tasks. Have fun debugging!
+The start code program crashes when you close the window. There is a small bug hidden somewhere, which has something to do with improper memory management. So your first warm-up task will be to find this bug and remove it. This should familiarize you with the code and set you up for the rest of the upcoming tasks. Have fun debugging!
 
 Aside from the bug mentioned above, there are five additional major student tasks in the Memory Management chatbot project, which are:
 
@@ -81,3 +67,29 @@ ChatBot Move Assignment Operator
 ChatBot Destructor
 ChatBot Destructor 
 ```
+
+## Tasks Implementation Details
+
+This is the summary of what was done in each task 
+- Task 0:
+  - Removed double delete of `_chatBot` pointer on graphnode destructor. `_chatBot` pointer is properly deleted on `ChatLogic` class destructor only, the same class where it is initialized.
+- Task 1:
+  - `_chatLogic` is defined as `std::unique_ptr<ChatLogic>`.
+  - `delete _chatLogic` removed from `ChatBotPanelDialog` destructor.
+  - Ajusted `_chatLogic` initialization on `ChatBotPanelDialog` constructor.
+- Task 2:
+  - Implemented copy constructor, copy assignment constructor, move constructor and move assignment constructor on `ChatBot` class.
+  - on all `_image` attribute that is assigned to `nullptr` was changed to `NULL`.
+- Task 3:
+  - Adapted vector `_nodes` to a vector of `std::unique_ptr<GraphNode>`.
+  - Adpated all functions that access `_nodes`. 
+- Task 4:
+  - `GetChildEdgeAtIndex` return a raw pointer from unique_ptr of `GraphEdge`.
+  - On `GraphEdge edge` creation in `chatlogic.cpp`.
+    - a **reference** from unique pointer `edge` is passed to `parentNode->AddEdgeToChildNode` and ownership is transfered with std::move() when pushed back to parentNode `_childEdges` vector.
+    - a **raw pointer** from unique pointer `edge` is passed to `childNode->AddEdgeToParentNode` and pushed back to parentNode `_parentEdges` vector.
+  - Removed `_edges` class attribute.
+- Task 5:
+  - `_chatBot` on `GraphNode` class attribute changed from a `pointer ` to a `variable`. 
+  - Initialize a local `chatBot` instance on the stack at the end of `ChatLogic::LoadAnswerGraphFromFile` and move it to `rootNode`
+  - `GraphNode::MoveChatbotHere` receive a chatBot reference and move it to the `_chatBot` of `GraphNode` instance using `std::move()`.
