@@ -3,8 +3,21 @@
 This is the project for the third course in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213): Memory Management.
 
 This project is under development
- - Task 0: Done!
- - Task 1 : Doing
+- Task 0:
+  - Removed double delete of `_chatBot` pointer on graphnode destructor. `_chatBot` pointer is deleted on `ChatLogic` class destructor, the same class where it is initialized.
+- Task 1:
+  - `_chatLogic` is defined as `std::unique_ptr<ChatLogic>`.
+  - `delete _chatLogic` removed from `ChatBotPanelDialog` destructor.
+  - Ajusted `_chatLogic` initialization on `ChatBotPanelDialog` constructor.
+- Task 2:
+  - Implemented copy constructor, copy assignment constructor, move constructor and move assignment constructor on `ChatBot` class.
+  - on all `_image` attribute that is assigned to `nullptr` was changed to `NULL`.
+- Task 3:
+  - Adapted vector `_nodes` to a vector of `std::unique_ptr<GraphNode>`.
+  - Adpated all functions that access `_nodes`. 
+- Task 4:
+  - 
+
 
 <img src="images/chatbot_demo.gif"/>
 
