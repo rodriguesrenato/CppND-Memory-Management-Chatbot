@@ -20,7 +20,6 @@ ChatBot::ChatBot() {
 
 // constructor WITH memory allocation
 ChatBot::ChatBot(std::string filename) {
-    // std::cout << "ChatBot Constructor" << std::endl;
     std::cout << "[ChatBot] Constructor(filename): " << this << std::endl;
 
     // invalidate data handles
@@ -31,23 +30,23 @@ ChatBot::ChatBot(std::string filename) {
     _image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
 }
 
+// destructor
 ChatBot::~ChatBot() {
     std::cout << "[ChatBot] Destructor: " << this << std::endl;
 
     // deallocate heap memory
-    if (_image != NULL)  // Attention: wxWidgets used NULL and not nullptr
-    {
+    // wxWidgets used NULL and not nullptr
+    if (_image != NULL) {
         delete _image;
         _image = NULL;
     }
 }
 
-//// STUDENT CODE
-////
 // copy constructor
 ChatBot::ChatBot(const ChatBot &source) {
     std::cout << "[ChatBot] COPY content of instance " << &source
               << " to instance " << this << std::endl;
+              
     _image = source._image;
     _chatLogic = source._chatLogic;
     _rootNode = source._rootNode;
@@ -94,8 +93,8 @@ ChatBot &ChatBot::operator=(ChatBot &&source) {
 
     if (this == &source) return *this;
 
-    // Double check if there was an image instantiated before, if true then delete it
-    // before transferer  source _image ownership
+    // Double check if there was an image instantiated before, if true then
+    // delete it before transferer  source _image ownership
     if (_image != NULL) {
         delete _image;
     }
@@ -113,8 +112,6 @@ ChatBot &ChatBot::operator=(ChatBot &&source) {
 
     return *this;
 }
-////
-//// EOF STUDENT CODE
 
 void ChatBot::ReceiveMessageFromUser(std::string message) {
     // loop over all edges and keywords and compute Levenshtein distance to

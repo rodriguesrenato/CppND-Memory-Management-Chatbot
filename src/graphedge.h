@@ -1,24 +1,24 @@
 #ifndef GRAPHEDGE_H_
 #define GRAPHEDGE_H_
 
-#include <vector>
 #include <string>
+#include <vector>
 
-class GraphNode; // forward declaration
+class GraphNode;  // forward declaration
 
-class GraphEdge
-{
-private:
+class GraphEdge {
+   private:
     // data handles (not owned)
     GraphNode *_childNode;
     GraphNode *_parentNode;
 
     // proprietary members
     int _id;
-    std::vector<std::string> _keywords; // list of topics associated with this edge
-    
 
-public:
+    // list of topics associated with this edge
+    std::vector<std::string> _keywords;
+
+   public:
     // constructor / desctructor
     GraphEdge(int id);
 

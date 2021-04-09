@@ -1,36 +1,33 @@
 #ifndef GRAPHNODE_H_
 #define GRAPHNODE_H_
 
-#include <vector>
-#include <string>
-#include "chatbot.h"
 #include <memory>
+#include <string>
+#include <vector>
 
+#include "chatbot.h"
 
 // forward declarations
 class GraphEdge;
 
-class GraphNode
-{
-private:
-    //// STUDENT CODE
-    ////
-
+class GraphNode {
+   private:
     // data handles (owned)
-    std::vector<std::unique_ptr<GraphEdge>> _childEdges;  // edges to subsequent nodes
+    // edges to subsequent nodes
+    std::vector<std::unique_ptr<GraphEdge>> _childEdges;
 
     // data handles (not owned)
-    std::vector<GraphEdge *> _parentEdges; // edges to preceding nodes 
-    ChatBot _chatBot;
+    // edges to preceding nodes
+    std::vector<GraphEdge *> _parentEdges;
 
-    ////
-    //// EOF STUDENT CODE
+    // chatBot instance
+    ChatBot _chatBot;
 
     // proprietary members
     int _id;
     std::vector<std::string> _answers;
 
-public:
+   public:
     // constructor / destructor
     GraphNode(int id);
     ~GraphNode();
@@ -43,18 +40,12 @@ public:
     int GetNumberOfParents() { return _parentEdges.size(); }
 
     // proprietary functions
-    void AddToken(std::string token); // add answers to list
+    void AddToken(std::string token);  // add answers to list
     void AddEdgeToParentNode(GraphEdge *edge);
     void AddEdgeToChildNode(std::unique_ptr<GraphEdge> &edge);
 
-    //// STUDENT CODE
-    ////
-
+    // ChatBot moving functions
     void MoveChatbotHere(ChatBot &chatbot);
-
-    ////
-    //// EOF STUDENT CODE
-
     void MoveChatbotToNewNode(GraphNode *newNode);
 };
 

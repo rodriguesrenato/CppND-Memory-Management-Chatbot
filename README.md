@@ -71,25 +71,31 @@ ChatBot Destructor
 ## Tasks Implementation Details
 
 This is the summary of what was done in each task 
+
 - Task 0:
-  - Removed double delete of `_chatBot` pointer on graphnode destructor. `_chatBot` pointer is properly deleted on `ChatLogic` class destructor only, the same class where it is initialized.
+  - [graphnode] Removed double delete of `_chatBot` pointer on graphnode destructor. `_chatBot` pointer is properly deleted on `ChatLogic` class destructor only, the same class where it is initialized.
+
 - Task 1:
-  - `_chatLogic` is defined as `std::unique_ptr<ChatLogic>`.
-  - `delete _chatLogic` removed from `ChatBotPanelDialog` destructor.
-  - Ajusted `_chatLogic` initialization on `ChatBotPanelDialog` constructor.
+  - [chatgui] `_chatLogic` is defined as `std::unique_ptr<ChatLogic>`.
+  - [chatgui] `delete _chatLogic` removed from `ChatBotPanelDialog` destructor.
+  - [chatgui] Ajusted `_chatLogic` initialization on `ChatBotPanelDialog` constructor.
+
 - Task 2:
-  - Implemented copy constructor, copy assignment constructor, move constructor and move assignment constructor on `ChatBot` class.
-  - on all `_image` attribute that is assigned to `nullptr` was changed to `NULL`.
+  - [chatbot] Implemented copy constructor, copy assignment constructor, move constructor and move assignment constructor on `ChatBot` class.
+  - [chatbot] On all `_image` attribute that is assigned to `nullptr` was changed to `NULL`.
+
 - Task 3:
-  - Adapted vector `_nodes` to a vector of `std::unique_ptr<GraphNode>`.
-  - Adpated all functions that access `_nodes`. 
+  - [chatlogic] Adapted vector `_nodes` to a vector of `std::unique_ptr<GraphNode>`.
+  - [chatlogic] Adpated all functions that access `_nodes`. 
+
 - Task 4:
-  - `GetChildEdgeAtIndex` return a raw pointer from unique_ptr of `GraphEdge`.
-  - On `GraphEdge edge` creation in `chatlogic.cpp`.
-    - a **reference** from unique pointer `edge` is passed to `parentNode->AddEdgeToChildNode` and ownership is transfered with std::move() when pushed back to parentNode `_childEdges` vector.
+  - [graphnode] `GetChildEdgeAtIndex` return a raw pointer from unique_ptr of `GraphEdge`.
+  - [chatlogic] On new edge creation:
+    - a **reference** from unique pointer `edge` is received on `parentNode->AddEdgeToChildNode` and ownership is transfered with std::move() when pushed back to parentNode `_childEdges` vector.
     - a **raw pointer** from unique pointer `edge` is passed to `childNode->AddEdgeToParentNode` and pushed back to parentNode `_parentEdges` vector.
-  - Removed `_edges` class attribute.
+  - [chatlogic] Removed `_edges` class attribute.
+
 - Task 5:
-  - `_chatBot` on `GraphNode` class attribute changed from a `pointer ` to a `variable`. 
-  - Initialize a local `chatBot` instance on the stack at the end of `ChatLogic::LoadAnswerGraphFromFile` and move it to `rootNode`
-  - `GraphNode::MoveChatbotHere` receive a chatBot reference and move it to the `_chatBot` of `GraphNode` instance using `std::move()`.
+  - [graphnode] `_chatBot` on `GraphNode` class attribute changed from a `pointer ` to a `variable`. 
+  - [chatlogic] Initialize a local `chatBot` instance on the stack at the end of `ChatLogic::LoadAnswerGraphFromFile` and move it to `rootNode`
+  - [graphnode] `GraphNode::MoveChatbotHere` receive a chatBot reference and move it to the attribute `_chatBot` of `GraphNode` instance using `std::move()`.
