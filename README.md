@@ -2,7 +2,7 @@
 
 This is the project for the third course in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213): Memory Management.
 
-The main goal is to apply memory management best pratices to optimize the [ChatBot program](https://github.com/udacity/CppND-Memory-Management-Chatbot) from a memory management perspective, by using the concepts of move semantics and smart pointers. There are a total of five specific tasks to be completed, which are detailed below.
+The main goal is to apply memory management best pratices to optimize the [ChatBot program provided by Udacity](https://github.com/udacity/CppND-Memory-Management-Chatbot) from a memory management perspective, by using the concepts of move semantics and smart pointers. There are a total of five specific tasks to be completed, which are detailed below.
 
 ## The ChatBot
 <img src="images/chatbot_demo.gif"/>
